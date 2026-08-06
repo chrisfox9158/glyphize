@@ -71,3 +71,8 @@ def convert_to_map(image, cell_size):
 
     return CellMap(grid, grid_width, grid_height, cell_size, image.width, image.height)
 
+def convert(image, cell_size):
+    image = load(image)
+    image = normalize(image)
+    map = convert_to_map(image, cell_size)
+    return map
