@@ -74,5 +74,5 @@ def convert_to_map(image, cell_size):
 def convert(image, cell_size):
     image = load(image)
     image = normalize(image)
-    map = convert_to_map(image, cell_size)
-    return map
+    cell_map = convert_to_map(image, cell_size)
+    return cell_map
