@@ -33,3 +33,9 @@ def average_color(pixel_block):
     mean_b = round(sum_b / count)
 
     return (mean_r, mean_g, mean_b)
+
+def luminance(mean_rgb):
+    r, g, b = mean_rgb
+    weighted_sum = (0.299 * r) + (0.587 * g) + (0.114 * b) # based on ITU-R BT.601 standard
+    normal_lum = weighted_sum / 255.0
+    return normal_lum
