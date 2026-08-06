@@ -18,3 +18,18 @@ def normalize(image):
         image = image.convert("RGB")
     return image
 
+def average_color(pixel_block):
+    sum_r, sum_g, sum_b = 0, 0, 0
+    count = 0
+
+    for (r, g, b) in pixel_block.get_flattened_data():
+        sum_r += r
+        sum_g += g
+        sum_b += b
+        count += 1
+
+    mean_r = round(sum_r / count)
+    mean_g = round(sum_g / count)
+    mean_b = round(sum_b / count)
+
+    return (mean_r, mean_g, mean_b)
