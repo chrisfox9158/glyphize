@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
+import random
 
-def render_ascii(cell_map, ramp, floor_brightness, font_path, font_size_scale, bg_color, glyph_color):
+def render_ascii(*, cell_map, ramp, floor_brightness, curve_power, font_path, font_size_scale, bg_color, glyph_color):
     canvas_width = cell_map.grid_width * cell_map.cell_size
     canvas_height = cell_map.grid_height * cell_map.cell_size
     canvas_size = (canvas_width, canvas_height)
@@ -13,7 +14,8 @@ def render_ascii(cell_map, ramp, floor_brightness, font_path, font_size_scale, b
         for col in range(cell_map.grid_width):
             brightness = cell_map.grid[row, col]["brightness"]
 
-            if brightness < floor_brightness:
+            probability = draw_probability(brightness, floor_brightness, curve_power)
+            if random.random() >= probability:
                 continue
 
             ramp_index = int(brightness * (len(ramp) - 1))
@@ -23,3 +25,10 @@ def render_ascii(cell_map, ramp, floor_brightness, font_path, font_size_scale, b
             draw.text(position, glyph, font=font, fill=glyph_color)
 
     return canvas
+
+def draw_probability(brightness, floor_brightness, curve_power):
+    if brightness <= floor_brightness:
+        return 0.0
+
+    normalized = (brightness - floor_brightness) / (1.0 - floor_brightness)
+    return normalized ** curve_power
